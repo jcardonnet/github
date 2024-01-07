@@ -1,0 +1,42 @@
+# on Push, Lint, Test, Build, and Deploy
+
+name: CI Compact Pipeline
+on: push
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+        -   name: Checkout
+            uses: actions/checkout@v4
+        -   name: Install Node
+            uses: actions/setup-node@v3
+            with:
+                node-version: 18.x
+        -   name: Install dependencies
+            run: |
+                echo "--------------  Installing depencencies --------------"
+                npm ci
+                echo "--------------  Done Installing depencencies --------------"
+
+        -   name: Lint
+            run: |
+                echo "-------------- Begin Linting --------------"
+                npm run lint
+                echo "--------------  Done Linting --------------"
+
+        -   name: Test
+            run: |
+                echo "--------------  Starting testing  --------------" 
+                npm run test
+                echo "--------------  Done testing --------------"
+
+        -   name: Build project
+            run: |
+                echo "--------------  Starting Build --------------"    
+                npm run build
+                echo "--------------  Done building --------------"
+
+        -   name: Deploy
+            run: echo "Deploying to production..."
+ 
+            
